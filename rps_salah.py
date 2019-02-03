@@ -1,11 +1,10 @@
 import random
 
-moves = ['rock', 'paper', 'scissors']
-
 rounds = input("Hom many rounds do you want to play?")
 
 
 class Player:
+    """A player that always plays 'rock'"""
     def move(self):
         return 'rock'
 
@@ -14,11 +13,13 @@ class Player:
 
 
 class RandomPlayer(Player):
+    """A player that chooses its moves randomly."""
     def move(self):
         return random.choice(moves)
 
 
 class HumanPlayer(Player):
+    """Player number one"""
     def move(self):
         my_move = input("rock, paper, scissors?").lower()
         while my_move not in moves:
@@ -27,7 +28,9 @@ class HumanPlayer(Player):
 
 
 class ReflectPlayer(Player):
+    """A player that remembers and imitates what the human player did in the previous round."""
     def __init__(self):
+        """first move of ReflectPlayer is random"""
         self.reflect_move = random.choice(moves)
 
     def move(self):
@@ -39,6 +42,7 @@ class ReflectPlayer(Player):
 
 
 class CyclePlayer(Player):
+    """A player that cycles through the three moves."""
     def __init__(self):
         self.cycle_move = random.choice(moves)
 
@@ -109,6 +113,11 @@ class Game:
             print("You both champions")
 
 
+
 if __name__ == '__main__':
-    game = Game(Player(), Player())
+    moves = ['rock', 'paper', 'scissors']
+    behaviors = [RandomPlayer(), HumanPlayer(), ReflectPlayer(), CyclePlayer()]
+    behavior = random.choice(behaviors)
+    human = HumanPlayer()
+    game = Game(human, behavior)
     game.play_game()
